@@ -1,9 +1,9 @@
-import { Component, createRef } from 'react';
+import React, { Component, createRef } from 'react';
 import { Cropper } from 'react-cropper';
 import './App.css';
 import { GIFEncoder } from './GIFEncoder';
 import 'cropperjs/dist/cropper.css';
-import Icon from './Icon';
+import { Icon } from 'components/Icon';
 
 class App extends Component {
 
@@ -39,7 +39,7 @@ class App extends Component {
         let canvas = document.createElement('canvas');
         canvas.width = this.side * this.scaleFactor;
         canvas.height = this.side * this.scaleFactor;
-        let context = canvas.getContext('2d');
+        let context = canvas.getContext('2d', { willReadFrequently: true });
         for(let j = 0; j < 3; j++){
             for(let i = 0; i < 360; i+=30) {
                 this.clear(context, this.scaleFactor);
@@ -126,7 +126,7 @@ class App extends Component {
                 {
                     !this.state.loaded &&
                     <div className="loading">
-                        <img src="./favicon.png" alt="Cargando" />
+                        <img src={`${process.env.RESOURCES_URL}/camaleon.png`} alt="Cargando" />
                         Cargando
                     </div>
                 }
