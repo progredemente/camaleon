@@ -1,9 +1,8 @@
 import React, { Component, createRef } from 'react';
-import { Cropper } from 'react-cropper';
 import './App.css';
 import { GIFEncoder } from './GIFEncoder';
-import 'cropperjs/dist/cropper.css';
 import { Icon } from 'components/Icon';
+import { ImageCropperModal } from 'components/ImageCropperModal';
 
 class App extends Component {
 
@@ -13,13 +12,12 @@ class App extends Component {
             loaded: false,
             gif: null,
             face: null,
-            crop: null,
-            showModal: false
+            crop: null
         }
         this.scaleFactor = .25;
         this.side = 1500;
         this.img = null;
-        this.cropperRef = createRef();
+        this.cropperModalRef = createRef();
     }
 
     componentDidMount(){
@@ -29,6 +27,10 @@ class App extends Component {
             this.setState({loaded: true});
             this.create();
         }
+    }
+
+    setCrop(crop) {
+        this.setState({crop}, this.create);
     }
 
     create() {
@@ -104,20 +106,14 @@ class App extends Component {
                 let face = new Image();
                 face.src = e.target.result;
                 face.onload = () => {
-                    this.setState({face, showModal: true});
+                    this.setState({face}, () => {
+                        this.cropperModalRef.current.showModal();
+                    });
                 }
             });
             fr.readAsDataURL(input.files[0]);
         }
         input.click();
-    }
-
-    hideModal = () => {
-        let crop = new Image();
-        crop.src = this.cropperRef.current.cropper.getCroppedCanvas().toDataURL();
-        crop.onload = () => {
-            this.setState({crop, showModal: false}, this.create);
-        }
     }
 
     render() {
@@ -149,7 +145,7 @@ class App extends Component {
                         />
                         <div className="buttons">
                             <div
-                                className="button"
+                                className="prg-button"
                                 onClick={() => {
                                     this.upload()
                                 }}
@@ -160,15 +156,15 @@ class App extends Component {
                                 this.state.face &&
                                 <>
                                     <div
-                                        className="button"
+                                        className="prg-button"
                                         onClick={() => {
-                                            this.setState({showModal: true});
+                                            this.cropperModalRef.current.showModal();
                                         }}
                                     >
                                         Editar&nbsp;cara&nbsp;<Icon icon="E" />
                                     </div>
                                     <div
-                                        className="button download"
+                                        className="prg-button download"
                                         onClick={() => {
                                             this.download()
                                         }}
@@ -180,35 +176,11 @@ class App extends Component {
                         </div>
                         {
                             this.state.face && 
-                            <div
-                                className={`modal${this.state.showModal ? "": " hidden"}`}
-                                onClick={this.hideModal}
-                                onMouseUp={() => {
-                                    return false;
-                                }}
-                            >
-                                <div
-                                    className="modal-container"
-                                    onClick={(evt) => {
-                                        evt.stopPropagation();
-                                    }}
-                                >
-                                    <div className="modal-title">Recortar imagen</div>
-                                    <Cropper
-                                        src={this.state.face.src}
-                                        aspectRatio={1}
-                                        style={{height: this.state.face.height * Math.min(this.state.face.width, window.innerWidth - 40) / this.state.face.width, width: Math.min(this.state.face.width, window.innerWidth - 40)}}
-                                        zoomable={false}
-                                        ref={this.cropperRef}
-                                    />
-                                    <div
-                                        className="button"
-                                        onClick={this.hideModal}
-                                    >
-                                        Aceptar
-                                    </div>
-                                </div>
-                            </div>
+                            <ImageCropperModal
+                                setCrop={(crop) => this.setCrop(crop)}
+                                face={this.state.face}
+                                ref={this.cropperModalRef}
+                            />
                         }
                     </div>
                 }
