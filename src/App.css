@@ -68,7 +68,3 @@
   margin-left: auto;
   font-size: .75em;
 }
-
-.image-cropper-modal {
-  --image-cropper-modal-background-shade-color: rgba(18, 94, 13, 0.5);
-}

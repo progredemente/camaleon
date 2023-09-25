@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import './App.css';
-import { GIFEncoder } from './GIFEncoder';
+import { GIFEncoder } from 'components/GIFEncoder';
 import { Icon } from 'components/Icon';
 import { ImageCropperModal } from 'components/ImageCropperModal';
 
@@ -44,8 +44,8 @@ class App extends Component {
         let context = canvas.getContext('2d', { willReadFrequently: true });
         for(let j = 0; j < 3; j++){
             for(let i = 0; i < 360; i+=30) {
-                this.clear(context, this.scaleFactor);
-                this.draw( i + 10 * j, context, this.scaleFactor);
+                this.clear(context);
+                this.draw( i + 10 * j, context);
                 encoder.addFrame(context);
             }
         }
