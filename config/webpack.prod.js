@@ -19,7 +19,7 @@ const prodConfig = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'cable',
+      name: 'camaleon',
       remotes: {
         components: `components@${process.env.COMPONENTS_URL}/remoteEntry.js`
       },
