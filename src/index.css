@@ -1,9 +1,8 @@
 * {
     font-family: ComicTypo;
     box-sizing: border-box;
-    --primary-color: #2ef020;
+    --primary-color: #25c519;
     --secondary-color: #a1f09b;
-    /*--image-cropper-modal-background-shade-color: rgba(18, 94, 13, 0.5) !important;*/
 }
 
 html, body, #root {
