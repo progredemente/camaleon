@@ -23,7 +23,7 @@ class App extends Component {
         }
         this.drawBody(frameNumber, context, image, scaleFactor, side);
         context.drawImage(image, 0, 0, side, side, 0, 0, side * scaleFactor, side * scaleFactor);
-        this.drawUrl(context, this.scaleFactor);
+        this.drawUrl(context, scaleFactor, side);
     }
 
     drawBody(frameNumber, context, image, scaleFactor, side) {
