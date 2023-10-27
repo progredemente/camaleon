@@ -59,6 +59,11 @@ class App extends Component {
                 loadButtonText='Elegir&nbsp;cara'
                 withCropper={true}
                 editButtonText='Editar&nbsp;cara&nbsp;'
+                defaultImgs={[
+                    './macarena.jpg',
+                    './echenique.jpg',
+                    './toni_canto.jpg'
+                ]}
                 
             />
         )
